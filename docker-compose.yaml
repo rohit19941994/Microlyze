@@ -1,0 +1,46 @@
+services:
+    mysqlDB:
+      image: mysql:latest
+      ports:
+        - 3306:3306
+        - 33060:33060
+      environment:
+        - MYSQL_ROOT_PASSWORD=khattak
+        - MYSQL_DATABASE=ApplicationDB
+
+    serviceDiscovery:
+      image: feezankhattak2208/servicediscovery:1.2
+      ports:
+        - 8761:8761   
+
+    graphqlAdapter:
+      image: feezankhattak2208/graphqladapter:1.2
+      ports:
+        - 9092:9092
+      environment:
+        - APPLICATION_PORT=9092
+        - APPLICATION_NAME=GrapqlAdapterService
+        - SPRiNG_DATASOURCE_URL=jdbc:mysql://localhost:3306/ApplicationDB
+        - SPRING_DATASOURCE_USERNAME=root
+        - SPRING_DATASOURCE_PASSWORD=khattak
+
+    eventPublisher:
+      image: feezankhattak2208/eventpublisher:1.2
+      ports: 
+        - 9093:9093
+      environment:
+        - APPLICATION_PORT=9093
+        - APPLICATION_NAME=EventPublisherService
+        - GRAPHQL_URL=http://localhost:9092/graphql
+
+    registration:
+      image: feezankhattak2208/registrationsvc:1.2
+      ports:
+        - 9090:9090  
+      environment:
+        - APPLICATION_PORT=9090
+        - APPLICATION_NAME=RegisterationService
+        - EVENT_PUBLISHER_URL=http://localhost:9093/logEvent
+        - SIGNIN_GRAPHQL_URL=http://localost:9092/graphql
+        - SIGNUP_GRAPHQL_URL=http://localost:9092/graphql 
+    

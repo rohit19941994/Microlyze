@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>greedyCode.co</groupId>
+        <artifactId>MasterPOM</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../MSPom.xml</relativePath> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>co.greedycode</groupId>
+    <artifactId>RegistrationService</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>RegistrationService</name>
+    <description>This microservice is responsible for the User the Registration like SignIn and singUp</description>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <configuration>
+                    <inputSpec>${project.basedir}/src/main/resources/RegistrationDefinition.yml</inputSpec>
+                </configuration>
+            </plugin>
+        </plugins>
+        <finalName>registrationsvc</finalName>
+    </build>
+
+</project>

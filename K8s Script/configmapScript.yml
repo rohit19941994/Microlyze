@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name:  configmap-cf
+  namespace: business-ns
+data:
+
+  # Event Publisher Variables
+  publisherPort: '9093'
+  publihserName: 'EventPublisherService'
+  publisherGraphql: 'http://graphql-svc.default.svc.cluster.local:9092/graphql'
+
+  # Graphql Variables
+  graphqlPort: '9092'
+  graphqlName: 'Graphql Service'
+  graphqlDatasourceUrl: 'jdbc:mysql://localhost:3306/ApplicationDB'
+
+  # Registration Variables
+  registrationPort: '9090'
+  registrationName: 'RegistrationService'
+  registrationEventPublisherUrl: 'http://publisher-svc.default.svc.cluster.local:9093/logEvent'
+  registrationSigninUrl: 'http://graphql-svc.default.svc.cluster.local:9092/graphql'
+  registrationSignupUrl: 'http://graphql-svc.default.svc.cluster.local:9092/graphql'

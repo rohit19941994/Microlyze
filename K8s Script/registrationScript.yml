@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  registration-deployment
+  namespace: default
+  labels:
+    app:  registration
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: registration
+  template:
+    metadata:
+      labels:
+        app: registration
+    spec:
+      containers:
+        - env:
+            - name: APPLICATION_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: configmap-cf
+                  key: registrationPort
+
+            - name: APPLICATION_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: configmap-cf
+                  key: registrationName
+
+            - name: EVENT_PUBLISHER_URL
+              valueFrom:
+                configMapKeyRef:
+                  name:  configmap-cf
+                  key: registrationEventPublisherUrl
+
+            - name: SIGNIN_GRAPHQL_URL
+              valueFrom:
+                configMapKeyRef:
+                  name:  configmap-cf
+                  key: registrationSigninUrl
+
+            - name: SIGNUP_GRAPHQL_URL
+              valueFrom:
+                configMapKeyRef:
+                  name:  configmap-cf
+                  key: registrationSignupUrl
+
+          name:  registration
+          image:  'feezankhattak2208/registrationsvc:1.0'
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 200m
+              memory: 256Mi
+            limits:
+              cpu: 200m
+              memory: 256Mi
+          ports:
+            - containerPort: 9090
+              name: reg-pod
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name:  registration-svc
+  namespace: default
+  labels:
+    app: registration
+spec:
+  selector:
+    app: registration
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: reg-pod
+      nodePort: 30030

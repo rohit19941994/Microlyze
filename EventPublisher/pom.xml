@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>greedyCode.co</groupId>
+		<artifactId>MasterPOM</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../MSPom.xml</relativePath> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>co.greedycode</groupId>
+	<artifactId>EventPublisher</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>EventPublisher</name>
+	<description>This is the event publisher service which is used to receive and send the event to the database layer.</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.glassfish.jaxb</groupId>
+			<artifactId>jaxb-runtime</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.openapitools</groupId>
+				<artifactId>openapi-generator-maven-plugin</artifactId>
+				<configuration>
+					<inputSpec>${project.basedir}/src/main/resources/eventPublisher.yml</inputSpec>
+				</configuration>
+			</plugin>
+		</plugins>
+		<finalName>eventpublisher</finalName>
+	</build>
+
+</project>

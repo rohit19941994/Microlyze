@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  graphql-deployment
+  namespace: default
+  labels:
+    app:  graphql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: graphql
+  template:
+    metadata:
+      labels:
+        app: graphql
+    spec:
+      containers:
+        - env:
+            - name: APPLICATION_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: configmap-cf
+                  key: graphqlPort
+
+            - name: APPLICATION_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: configmap-cf
+                  key: graphqlName
+
+
+            - name: SPRiNG_DATASOURCE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name:  configmap-cf
+                  key: graphqlDatasourceUrl
+
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: configmap-cf
+                  key: graphqlDatasourceUsername
+
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name:  configmap-cf
+                  key: graphqlDatasourcePassword
+
+          name:  graphql
+          image:  'feezankhattak2208/graphqlsvc:1.0'
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 200m
+              memory: 256Mi
+            limits:
+              cpu: 200m
+              memory: 256Mi
+          ports:
+            - containerPort: 9093
+              name: graphql-pod
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name:  graphql-svc
+  namespace: default
+  labels:
+    app: graphql
+spec:
+  selector:
+    app: graphql
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: graphql-pod
+      nodePort: 30029
