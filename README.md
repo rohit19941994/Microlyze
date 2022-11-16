@@ -21,7 +21,7 @@ The overall flow of these microservices' architecture is;
 # Clone and Run the project
 you can clone and run the project by cloning this project as;
 
-    git clone https://github.com/Feezan-Khattak/MicroserviceRegistrationFlow.git
+   https://github.com/rohit19941994/Microlyze.git
 
 open you favorite editor and install the maven packages as
 
